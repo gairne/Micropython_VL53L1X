@@ -31,11 +31,6 @@ extensions = [
 
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
-    "BusDevice": (
-        "https://docs.circuitpython.org/projects/busdevice/en/latest/",
-        None,
-    ),
-    "CircuitPython": ("https://docs.circuitpython.org/en/latest/", None),
 }
 
 # Show the docstring from both the class and its __init__() method.
@@ -50,7 +45,7 @@ source_suffix = ".rst"
 master_doc = "index"
 
 # General information about the project.
-project = "Adafruit CircuitPython VL53L1X Library"
+project = "MicroPython VL53L1X Library, based upon Adafruit's CircuitPython VL53L1X Library"
 creation_year = "2021"
 current_year = str(datetime.datetime.now().year)
 year_duration = (
@@ -59,7 +54,7 @@ year_duration = (
     else creation_year + " - " + current_year
 )
 copyright = year_duration + " Carter Nelson"
-author = "Carter Nelson"
+author = "Carter Nelson, Gairne <code@gairne.co.uk>"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -139,7 +134,7 @@ html_static_path = ["_static"]
 html_favicon = "_static/favicon.ico"
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = "Adafruit_CircuitPython_Vl53l1x_Librarydoc"
+htmlhelp_basename = "MicroPython_Vl53l1x_Librarydoc"
 
 # -- Options for LaTeX output ---------------------------------------------
 
@@ -160,8 +155,8 @@ latex_elements = {
 latex_documents = [
     (
         master_doc,
-        "Adafruit_CircuitPython_VL53L1X_Library.tex",
-        "Adafruit CircuitPython VL53L1X Library Documentation",
+        "MicroPython_VL53L1X_Library.tex",
+        "MicroPython VL53L1X Library Documentation",
         author,
         "manual",
     ),
@@ -174,8 +169,8 @@ latex_documents = [
 man_pages = [
     (
         master_doc,
-        "Adafruit_CircuitPython_VL53L1X_Library",
-        "Adafruit CircuitPython VL53L1X Library Documentation",
+        "MicroPython_VL53L1X_Library",
+        "MicroPython VL53L1X Library Documentation",
         [author],
         1,
     ),
@@ -189,10 +184,10 @@ man_pages = [
 texinfo_documents = [
     (
         master_doc,
-        "Adafruit_CircuitPython_VL53L1X_Library",
-        "Adafruit CircuitPython VL53L1X Library Documentation",
+        "MicroPython_VL53L1X_Library",
+        "MicroPython VL53L1X Library Documentation",
         author,
-        "Adafruit_CircuitPython_VL53L1X_Library",
+        "MicroPython_VL53L1X_Library",
         "One line description of project.",
         "Miscellaneous",
     ),

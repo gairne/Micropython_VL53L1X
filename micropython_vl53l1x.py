@@ -3,13 +3,14 @@
 #
 # SPDX-License-Identifier: MIT
 """
-`adafruit_vl53l1x`
+`micropython_vl53l1x`
 ================================================================================
 
-CircuitPython module for interacting with the VL53L1X distance sensor.
+MicroPython module for interacting with the VL53L1X distance sensor, based upon the module written by Adafruit for CircuitPython.
+Replaces CircuitPython python modules with the machine module that is an alternative mechanism to interact with i2c devices but
+will be missing any additional functionality that CircuitPython provides.
 
-
-* Author(s): Carter Nelson
+* Author(s): Carter Nelson, Gairne <code@gairne.co.uk>
 
 Implementation Notes
 --------------------
@@ -19,20 +20,21 @@ Implementation Notes
 * Adafruit `VL53L1X Time of Flight Distance Sensor - ~30 to 4000mm
   <https://www.adafruit.com/product/3967>`_
 
+* Pimoroni `VL53L1X Time of Flight (ToF) Sensor Breakout
+  <https://shop.pimoroni.com/products/vl53l1x-breakout>`_
+
 **Software and Dependencies:**
 
-* Adafruit CircuitPython firmware for the supported boards:
-  https://github.com/adafruit/circuitpython/releases
-* Adafruit's Bus Device library: https://github.com/adafruit/Adafruit_CircuitPython_BusDevice
+* MicroPython firmware, for example Pimoroni's MicroPython firmware for Pico-based devices: https://github.com/pimoroni/pimoroni-pico/releases
 """
 
 import time
 import struct
-from adafruit_bus_device import i2c_device
+import machine
 from micropython import const
 
-# imports__version__ = "0.0.0+auto.0"
-__repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_VL53L1X.git"
+# imports__version__ = "1.0.0+auto.0"
+__repo__ = "https://github.com/gairne/Micropython_VL53L1X.git"
 
 _VL53L1X_I2C_SLAVE_DEVICE_ADDRESS = const(0x0001)
 _VL53L1X_VHV_CONFIG__TIMEOUT_MACROP_LOOP_BOUND = const(0x0008)
@@ -77,9 +79,13 @@ TB_LONG_DIST = {
 class VL53L1X:
     """Driver for the VL53L1X distance sensor."""
 
-    def __init__(self, i2c, address=41):
-        self.i2c_device = i2c_device.I2CDevice(i2c, address)
-        self._i2c = i2c
+    
+    def __init__(self, address=41, sclPin=5, sdaPin=4):
+        """
+        Instantiate with an i2c address (default 0x29 or 41), SCL GPIO pin (default GPIO 5), and SDA GPIO pin (default GPIO 4). 
+        """
+        self.i2c_device = machine.I2C(0, scl=machine.Pin(sclPin), sda=machine.Pin(sdaPin))
+        self.i2cAddress = address
         model_id, module_type, mask_rev = self.model_info
         if model_id != 0xEA or module_type != 0xCC or mask_rev != 0x10:
             raise RuntimeError("Wrong sensor ID or type!")
@@ -298,23 +304,20 @@ class VL53L1X:
     def _write_register(self, address, data, length=None):
         if length is None:
             length = len(data)
-        with self.i2c_device as i2c:
-            i2c.write(struct.pack(">H", address) + data[:length])
+        self.i2c_device.writeto(self.i2cAddress, struct.pack(">H", address) + data[:length])
 
     def _read_register(self, address, length=1):
         data = bytearray(length)
-        with self.i2c_device as i2c:
-            i2c.write(struct.pack(">H", address))
-            i2c.readinto(data)
+        self.i2c_device.writeto(self.i2cAddress, struct.pack(">H", address))
+        self.i2c_device.readfrom_into(self.i2cAddress, data)
         return data
 
     def set_address(self, new_address):
         """
         Set a new I2C address to the instantaited object. This is only called when using
-        multiple VL53L0X sensors on the same I2C bus (SDA & SCL pins). See also the
-        `example <examples.html#multiple-vl53l1x-on-same-i2c-bus>`_ for proper usage.
+        multiple VL53L0X sensors on the same I2C bus (SDA & SCL pins).
         """
         self._write_register(
             _VL53L1X_I2C_SLAVE_DEVICE_ADDRESS, struct.pack(">B", new_address)
         )
-        self.i2c_device = i2c_device.I2CDevice(self._i2c, new_address)
+        self.i2cAddress = new_address

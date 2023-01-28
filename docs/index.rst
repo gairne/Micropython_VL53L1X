@@ -28,15 +28,14 @@ Table of Contents
     :caption: Related Products
 
     Adafruit VL53L1X Time of Flight Distance Sensor <https://www.adafruit.com/product/3967>
+    Pimoroni VL53L1X Time of Flight (ToF) Sensor Breakout <https://shop.pimoroni.com/products/vl53l1x-breakout>
 
 .. toctree::
     :caption: Other Links
 
-    Download from GitHub <https://github.com/adafruit/Adafruit_CircuitPython_VL53L1X/releases/latest>
-    Download Library Bundle <https://circuitpython.org/libraries>
-    CircuitPython Reference Documentation <https://docs.circuitpython.org>
-    CircuitPython Support Forum <https://forums.adafruit.com/viewforum.php?f=60>
-    Discord Chat <https://adafru.it/discord>
+    MicroPython library on GitHub <https://github.com/gairne/Micropython_VL53L1X>
+    Original Adafruit CircuitPython library from GitHub <https://github.com/adafruit/Adafruit_CircuitPython_VL53L1X/releases/latest>
+    Adafruit Discord Chat <https://adafru.it/discord>
     Adafruit Learning System <https://learn.adafruit.com>
     Adafruit Blog <https://blog.adafruit.com>
     Adafruit Store <https://www.adafruit.com>

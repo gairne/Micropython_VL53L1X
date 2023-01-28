@@ -7,13 +7,9 @@
 # Will print the sensed range/distance every second.
 
 import time
-import board
-import adafruit_vl53l1x
+import micropython_vl53l1x
 
-i2c = board.I2C()  # uses board.SCL and board.SDA
-# i2c = board.STEMMA_I2C()  # For using the built-in STEMMA QT connector on a microcontroller
-
-vl53 = adafruit_vl53l1x.VL53L1X(i2c)
+vl53 = micropython_vl53l1x.VL53L1X()
 
 # OPTIONAL: can set non-default values
 vl53.distance_mode = 1
